@@ -1,0 +1,15 @@
+{
+  "name": "invoice-generator-management-system",
+  "version": "1.0.0",
+  "description": "Full-stack Invoice Generation and Management System with GenAI receipt extraction",
+  "scripts": {
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:ai": "cd ai_worker && .venv\\Scripts\\activate && uvicorn main:app --reload --port 8000",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:ai\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
