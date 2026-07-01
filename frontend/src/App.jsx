@@ -95,7 +95,7 @@ export default function App() {
 
         {/* Main content area — offset by sidebar width */}
         <main
-          className="flex-1 ml-64 p-6 sm:p-8 lg:p-10 transition-all duration-300"
+          className="flex-1 pb-24 md:pb-0 md:ml-64 p-4 sm:p-8 lg:p-10 transition-all duration-300"
           id="main-content"
         >
           {renderPage()}

@@ -32,19 +32,21 @@ export default function Sidebar({ currentPage, onNavigate }) {
     <aside
       id="sidebar"
       className={`
-        fixed top-0 left-0 h-screen z-40 flex flex-col
+        fixed z-40 flex
         transition-all duration-300 ease-in-out
-        ${collapsed ? 'w-20' : 'w-64'}
+        /* Mobile: fixed bottom nav */
+        bottom-0 left-0 w-full h-16 flex-row border-t border-white/[0.06]
+        /* Desktop: fixed side nav */
+        md:top-0 md:h-screen md:flex-col md:border-t-0 md:border-r md:w-64
       `}
       style={{
-        background: 'rgba(15, 23, 42, 0.80)',
+        background: 'rgba(15, 23, 42, 0.85)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
-        borderRight: '1px solid rgba(255,255,255,0.06)',
       }}
     >
       {/* ── Logo / Brand ──────────────────────────────── */}
-      <div className="flex items-center gap-3 px-5 pt-7 pb-6">
+      <div className="hidden md:flex items-center gap-3 px-5 pt-7 pb-6">
         <div
           className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
           style={{
@@ -54,20 +56,18 @@ export default function Sidebar({ currentPage, onNavigate }) {
           <Sparkles size={20} className="text-white" />
         </div>
 
-        {!collapsed && (
-          <div className="animate-fade-in">
-            <h1 className="text-lg font-bold gradient-text leading-tight">
-              InvoiceAI
-            </h1>
-            <p className="text-[11px] text-surface-400 leading-none mt-0.5">
-              Smart Billing
-            </p>
-          </div>
-        )}
+        <div className="animate-fade-in">
+          <h1 className="text-lg font-bold gradient-text leading-tight">
+            InvoiceAI
+          </h1>
+          <p className="text-[11px] text-surface-400 leading-none mt-0.5">
+            Smart Billing
+          </p>
+        </div>
       </div>
 
       {/* ── Navigation ────────────────────────────────── */}
-      <nav className="flex-1 flex flex-col gap-1 px-3 mt-2">
+      <nav className="flex-1 flex flex-row md:flex-col items-center justify-around md:items-stretch gap-1 px-2 md:px-3 mt-0 md:mt-2">
         {NAV_ITEMS.map(({ key, label, icon: Icon }) => {
           const active = currentPage === key;
           return (
@@ -76,20 +76,27 @@ export default function Sidebar({ currentPage, onNavigate }) {
               id={`nav-${key}`}
               onClick={() => onNavigate(key)}
               className={`
-                group relative flex items-center gap-3 rounded-xl
-                px-3 py-2.5 text-sm font-medium cursor-pointer
-                transition-all duration-200
+                group relative flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-3 rounded-xl
+                px-2 py-1.5 md:px-3 md:py-2.5 text-[10px] md:text-sm font-medium cursor-pointer
+                transition-all duration-200 w-full md:w-auto
                 ${active
-                  ? 'bg-white/10 text-white'
+                  ? 'text-brand-400 md:bg-white/10 md:text-white'
                   : 'text-surface-400 hover:text-white hover:bg-white/[0.04]'
                 }
               `}
             >
-              {/* Active glow bar */}
+              {/* Active glow bar (desktop) */}
               {active && (
                 <span
-                  className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full animate-pulse-glow"
+                  className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full animate-pulse-glow"
                   style={{ background: 'linear-gradient(180deg, #818cf8, #a78bfa)' }}
+                />
+              )}
+              {/* Active glow bar (mobile) */}
+              {active && (
+                <span
+                  className="block md:hidden absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[2px] rounded-b-full animate-pulse-glow"
+                  style={{ background: 'linear-gradient(90deg, #818cf8, #a78bfa)' }}
                 />
               )}
 
@@ -100,27 +107,11 @@ export default function Sidebar({ currentPage, onNavigate }) {
                 `}
               />
 
-              {!collapsed && (
-                <span className="truncate">{label}</span>
-              )}
+              <span className="truncate">{label}</span>
             </button>
           );
         })}
       </nav>
-
-      {/* ── Collapse toggle ───────────────────────────── */}
-      <div className="px-3 pb-5">
-        <button
-          id="sidebar-collapse-toggle"
-          onClick={() => setCollapsed((c) => !c)}
-          className="w-full flex items-center justify-center gap-2 rounded-xl
-                     py-2 text-surface-500 hover:text-white hover:bg-white/[0.04]
-                     transition-all duration-200 cursor-pointer text-xs"
-        >
-          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
-          {!collapsed && <span>Collapse</span>}
-        </button>
-      </div>
     </aside>
   );
 }
