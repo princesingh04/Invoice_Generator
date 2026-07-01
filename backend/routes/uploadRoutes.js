@@ -48,9 +48,8 @@ router.post('/upload-receipt', upload.single('receipt'), async (req, res) => {
     }
 
     // Build the publicly accessible URL for the uploaded file
-    const protocol = req.protocol;
-    const host = req.get('host');
-    const fileUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
+    const baseUrl = process.env.RENDER_EXTERNAL_URL || `${req.protocol}://${req.get('host')}`;
+    const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
 
     // Forward the file URL to the Python AI worker for extraction
     const aiWorkerUrl = process.env.AI_WORKER_URL || 'http://localhost:8000';
