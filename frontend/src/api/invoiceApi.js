@@ -3,7 +3,7 @@
  * Base URL points to the Express server on port 5000.
  */
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 /* ── Helper ──────────────────────────────────────────────── */
 async function request(path, options = {}) {

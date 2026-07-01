@@ -1,0 +1,43 @@
+services:
+  # Python AI Worker
+  - type: web
+    name: invoice-ai-worker
+    env: python
+    buildCommand: "cd ai_worker && pip install -r requirements.txt"
+    startCommand: "cd ai_worker && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false # Add this in Render Dashboard
+
+  # Node.js Backend
+  - type: web
+    name: invoice-backend
+    env: node
+    buildCommand: "cd backend && npm install"
+    startCommand: "cd backend && node server.js"
+    envVars:
+      - key: MONGO_URI
+        sync: false # Add MongoDB Atlas URI in Render Dashboard
+      - key: AI_WORKER_URL
+        fromService:
+          type: web
+          name: invoice-ai-worker
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: FRONTEND_URL
+        fromService:
+          type: web
+          name: invoice-frontend
+          envVarKey: RENDER_EXTERNAL_URL
+
+  # React Frontend (Static Site)
+  - type: web
+    name: invoice-frontend
+    env: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: "./frontend/dist"
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: invoice-backend
+          envVarKey: RENDER_EXTERNAL_URL

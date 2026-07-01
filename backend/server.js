@@ -26,10 +26,22 @@ connectDB();
 
 // --- Middleware ---
 
-// CORS – allow the Vite dev-server on port 5173
+// CORS – allow the Vite dev-server on port 5173 and production URL
+const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
   })
