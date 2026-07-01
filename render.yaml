@@ -3,6 +3,7 @@ services:
   - type: web
     name: invoice-ai-worker
     env: python
+    instanceType: free
     buildCommand: "cd ai_worker && pip install -r requirements.txt"
     startCommand: "cd ai_worker && uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
@@ -13,6 +14,7 @@ services:
   - type: web
     name: invoice-backend
     env: node
+    instanceType: free
     buildCommand: "cd backend && npm install"
     startCommand: "cd backend && node server.js"
     envVars:
