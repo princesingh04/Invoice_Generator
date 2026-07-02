@@ -63,7 +63,7 @@ async def extract_invoice(request: ExtractionRequest):
     # 2. Download the file into memory
     print(f"Downloading file from: {request.file_url}")
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
             response = await client.get(request.file_url)
             if response.status_code != 200:
                 raise HTTPException(

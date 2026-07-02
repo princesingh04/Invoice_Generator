@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard';
 import InvoiceBuilder from './pages/InvoiceBuilder';
 import InvoiceList from './pages/InvoiceList';
 import InvoiceView from './pages/InvoiceView';
+import Customers from './pages/Customers';
+import Settings from './pages/Settings';
 
 /**
  * React Query client — shared across the entire app.
@@ -69,19 +71,9 @@ export default function App() {
           />
         );
       case 'customers':
-        return (
-          <div className="animate-fade-in" id="customers-page">
-            <h1 className="text-2xl font-bold text-white mb-2">Customers</h1>
-            <p className="text-sm text-surface-400">Customer management coming soon.</p>
-          </div>
-        );
+        return <Customers />;
       case 'settings':
-        return (
-          <div className="animate-fade-in" id="settings-page">
-            <h1 className="text-2xl font-bold text-white mb-2">Settings</h1>
-            <p className="text-sm text-surface-400">Settings page coming soon.</p>
-          </div>
-        );
+        return <Settings />;
       default:
         return <Dashboard onViewInvoice={viewInvoice} />;
     }

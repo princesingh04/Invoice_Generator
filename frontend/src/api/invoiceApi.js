@@ -64,8 +64,14 @@ export const uploadReceipt = async (file) => {
 export const fetchShops = () => request('/api/shops');
 export const createShop = (data) =>
   request('/api/shops', { method: 'POST', body: JSON.stringify(data) });
+export const updateShop = (id, data) =>
+  request(`/api/shops/${id}`, { method: 'PUT', body: JSON.stringify(data) });
 
 /* ── Customers ───────────────────────────────────────────── */
 export const fetchCustomers = () => request('/api/customers');
 export const createCustomer = (data) =>
   request('/api/customers', { method: 'POST', body: JSON.stringify(data) });
+export const updateCustomer = (id, data) =>
+  request(`/api/customers/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+export const deleteCustomer = (id) =>
+  request(`/api/customers/${id}`, { method: 'DELETE' });

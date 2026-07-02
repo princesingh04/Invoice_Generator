@@ -47,4 +47,35 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// ---------------------------------------------------------------------------
+// PUT /api/customers/:id – Update a customer
+// ---------------------------------------------------------------------------
+router.put('/:id', async (req, res) => {
+  try {
+    const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!customer) return res.status(404).json({ message: 'Customer not found.' });
+    res.json(customer);
+  } catch (error) {
+    console.error('Error updating customer:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// ---------------------------------------------------------------------------
+// DELETE /api/customers/:id – Delete a customer
+// ---------------------------------------------------------------------------
+router.delete('/:id', async (req, res) => {
+  try {
+    const customer = await Customer.findByIdAndDelete(req.params.id);
+    if (!customer) return res.status(404).json({ message: 'Customer not found.' });
+    res.json({ message: 'Customer deleted.' });
+  } catch (error) {
+    console.error('Error deleting customer:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;
