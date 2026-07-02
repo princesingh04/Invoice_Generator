@@ -13,6 +13,7 @@ import uploadRoutes from './routes/uploadRoutes.js';
 import shopRoutes from './routes/shopRoutes.js';
 import customerRoutes from './routes/customerRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
+import seedRoutes from './routes/seedRoutes.js';
 
 // --- App Initialization ---
 const app = express();
@@ -60,6 +61,7 @@ app.use('/api', uploadRoutes);
 app.use('/api/shops', shopRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/seed', seedRoutes);
 
 // Health-check endpoint
 app.get('/api/health', (_req, res) => {
